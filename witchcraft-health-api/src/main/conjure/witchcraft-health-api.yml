@@ -1,0 +1,61 @@
+types:
+  definitions:
+    default-package: com.palantir.witchcraft.api.health
+    objects:
+      HealthStatus:
+        fields:
+          checks: map<CheckType, HealthCheckResult>
+      CheckType:
+        alias: string
+      HealthCheckResult:
+        docs: Metadata describing the status of a service.
+        fields:
+          type:
+            type: CheckType
+            docs: >
+              A constant representing the type of health check.
+              Values should be uppercase, underscore delimited, ascii letters with no spaces, ([A-Z_]).
+          state:
+            type: HealthState
+            docs: >
+              Health state of the check.
+          message:
+            type: optional<string>
+            docs: >
+              Text describing the state of the check which should provide enough information for the check to be actionable when included in an alert.
+          params:
+            type: map<string, any>
+            docs: >
+              Additional redacted information on the nature of the health check.
+      HealthState:
+        values:
+          - value: HEALTHY
+            docs: >
+              The service node is fully operational with no issues.
+          - value: DEFERRING
+            docs: >
+              The service node is fully operational with no issues; however, it is requesting to defer shutdown or restart.
+              A deferring node should not accept "new" jobs but should allow polling of existing jobs.
+          - value: SUSPENDED
+            docs: >
+              The service node is no longer serving requests and is ready to be shut down.
+              Nodes in a deferring state are expected to change to a suspended state once they have completed any pending work.
+              A suspended node must also indicate in its readiness probe that it should not receive incoming requests.
+          - value: REPAIRING
+            docs: >
+              The service node is operating in a degraded state, but is capable of automatically recovering.
+              If any of the nodes in the service were to be restarted, it may result in correctness or consistency issues with the service.
+              Ex: When a cassandra node decides it is not up-to-date and needs to repair, the node is operating in a degraded state.
+              Restarting the node prior to the repair being complete might result in the service being unable to correctly respond to requests.
+          - value: WARNING
+            docs: >
+              The service node is in a state that is trending towards an error.
+              If no corrective action is taken, the health is expected to become an error.
+          - value: ERROR
+            docs: >
+              The service node is operationally unhealthy.
+          - value: TERMINAL
+            docs: >
+              The service node has entered an unrecoverable state.
+              All nodes of the service should be stopped and no automated attempt to restart the node should be made.
+              Ex: a service fails to migrate to a new schema and is left in an unrecoverable state.
