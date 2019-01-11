@@ -23,17 +23,8 @@ apply plugin: 'com.palantir.baseline'
 apply plugin: 'com.palantir.git-version'
 
 allprojects {
-    apply plugin: 'idea'
-    apply plugin: 'com.palantir.configuration-resolver'
-    apply plugin: 'nebula.dependency-recommender'
-
     version gitVersion()
     group 'com.palantir.witchcraft.api'
-
-    dependencyRecommendations {
-        strategy OverrideTransitives
-        propertiesFile file: project.rootProject.file('versions.props')
-    }
 
     repositories {
         mavenCentral()
