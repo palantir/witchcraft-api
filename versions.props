@@ -1,0 +1,2 @@
+com.palantir.conjure:conjure = 4.4.0
+com.palantir.conjure.typescript:* = 3.4.0

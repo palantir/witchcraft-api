@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://dl.bintray.com/palantir/releases/'
+        }
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.netflix.nebula:nebula-publishing-plugin:7.0.12'
+        classpath 'com.palantir.baseline:gradle-baseline-java:0.43.0'
+        classpath 'com.palantir.gradle.conjure:gradle-conjure:4.7.0'
+        classpath 'com.palantir.gradle.gitversion:gradle-git-version:0.10.0'
+        classpath 'gradle.plugin.org.inferred:gradle-processors:2.1.0'
+    }
+}
+
+apply plugin: 'com.palantir.baseline'
+apply plugin: 'com.palantir.git-version'
+
+allprojects {
+    version gitVersion()
+    group 'com.palantir.witchcraft.api'
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://dl.bintray.com/palantir/releases/'
+        }
+    }
+}

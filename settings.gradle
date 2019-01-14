@@ -1,0 +1,7 @@
+rootProject.name = 'witchcraft-api'
+
+include 'witchcraft-health-api'
+include 'witchcraft-logging-api'
+
+include 'witchcraft-logging-api:witchcraft-logging-api-typescript'
+include 'witchcraft-health-api:witchcraft-health-api-typescript'
