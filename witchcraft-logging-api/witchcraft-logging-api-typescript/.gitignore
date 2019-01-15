@@ -1,6 +1,0 @@
-*.js
-*.ts
-.npmrc
-package.json
-tsconfig.json
-node_modules
