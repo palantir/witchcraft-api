@@ -17,9 +17,4 @@ subprojects {
     dependencies {
         api 'com.palantir.safe-logging:safe-logging'
     }
-
-    // doesn't pass because SafeLong is not used in the example API
-    tasks.named("checkUnusedDependenciesMain").configure {
-        enabled = false
-    }
 }
