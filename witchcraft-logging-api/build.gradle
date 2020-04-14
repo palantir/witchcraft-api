@@ -1,2 +1,20 @@
+apply plugin: 'com.palantir.conjure'
 apply plugin: 'com.palantir.conjure-publish'
 apply from: "$rootDir/gradle/publish-conjure.gradle"
+
+conjure {
+    java {
+        undertowServicePrefixes = true
+        useImmutableBytes = true
+        strictObjects = true
+        nonNullCollections = true
+    }
+}
+
+subprojects {
+    apply from: "$rootDir/gradle/publish-jar.gradle"
+
+    dependencies {
+        api 'com.palantir.safe-logging:safe-logging'
+    }
+}
