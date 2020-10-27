@@ -59,3 +59,6 @@ types:
               The service node has entered an unrecoverable state.
               All nodes of the service should be stopped and no automated attempt to restart the node should be made.
               Ex: a service fails to migrate to a new schema and is left in an unrecoverable state.
+          - value: UNKNOWN
+            docs: >
+              The service node's health status could not be collected.
