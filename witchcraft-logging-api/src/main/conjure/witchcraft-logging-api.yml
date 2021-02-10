@@ -253,6 +253,10 @@ types:
             docs: |
               Duration of this span (microseconds)
           annotations: list<Annotation>
+          tags:
+            type: map<string, string>
+            docs: |
+              Additional dimensions that describe the instance of the trace span
       Annotation:
         docs: A Zipkin-compatible Annotation object.
         fields:
