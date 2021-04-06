@@ -1,6 +1,5 @@
 apply plugin: 'com.palantir.conjure'
-apply plugin: 'com.palantir.conjure-publish'
-apply from: "$rootDir/gradle/publish-conjure.gradle"
+apply plugin: 'com.palantir.external-publish-conjure'
 
 conjure {
     java {
