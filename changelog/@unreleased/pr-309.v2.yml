@@ -1,0 +1,5 @@
+type: feature
+feature:
+  description: Implement the Witchcraft Logging API Idea plugin
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/309
