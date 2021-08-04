@@ -48,7 +48,7 @@ publishPlugin {
 }
 
 check.dependsOn buildPlugin, verifyPlugin
-tasks.publishPlugin.onlyIf { versionDetails().isCleanTag }
+tasks.publishPlugin.onlyIf { versionDetails().isCleanTag && System.env.JETBRAINS_PLUGIN_REPO_TOKEN != null }
 tasks.publish.dependsOn publishPlugin
 buildSearchableOptions.enabled = false
 // Prevent nebula.maven-publish from trying to publish components.java - we are publishing our own different artifact
