@@ -12,3 +12,5 @@ This repository contains the Conjure definitions for the witchcraft health and l
 ![Version](https://img.shields.io/jetbrains/plugin/v/17344) ![Downloads](http://phpstorm.espend.de/badge/17344/downloads) ![Rating](https://img.shields.io/jetbrains/plugin/r/stars/17344)
 
 This repository provides an intellij plugin to parse and render witchcraft-api structured logs from IDE console output.
+
+![Plugin Screenshot](static/screenshot.png)
