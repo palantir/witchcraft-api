@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/palantir/witchcraft-api">
     <id>com.palantir.witchcraft.api.logging.idea</id>
     <name>Witchcraft Logging</name>
-    <version>0.0.0</version>
+    <description>Automatically renders witchcraft-logging-api structured log events from the idea console into color-coded human-readable text.</description>
     <vendor email="ckozak@palantir.com" url="http://www.palantir.com">Palantir Technologies, Inc.</vendor>
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
