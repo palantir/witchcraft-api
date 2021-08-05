@@ -1,0 +1,16 @@
+<idea-plugin url="https://github.com/palantir/witchcraft-api">
+    <id>com.palantir.witchcraft.api.logging.idea</id>
+    <name>Witchcraft Logging</name>
+    <version>0.0.0</version>
+    <vendor email="ckozak@palantir.com" url="http://www.palantir.com">Palantir Technologies, Inc.</vendor>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <consoleInputFilterProvider implementation="com.palantir.witchcraft.logging.idea.WitchcraftLogFormatFilterProvider"/>
+        <projectConfigurable id="com.palantir.witchcraft.logging.idea.WitchcraftLogSettingsPanel"
+                             instance="com.palantir.witchcraft.logging.idea.WitchcraftLogSettingsPanel"
+                             groupId="build"
+                             displayName="Witchcraft Log Display"/>
+        <projectService serviceInterface="com.palantir.witchcraft.logging.idea.WitchcraftLogSettingsManager"
+                        serviceImplementation="com.palantir.witchcraft.logging.idea.WitchcraftLogSettingsManagerImpl"/>
+    </extensions>
+</idea-plugin>
