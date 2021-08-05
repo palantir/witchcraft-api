@@ -38,7 +38,6 @@ intellij {
 }
 
 patchPluginXml {
-    pluginDescription = "Renders Witchcraft logging api logs from structured data into human-readable text."
     version = project.version
     sinceBuild = minimumIntellijBuild
 }
