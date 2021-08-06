@@ -1,0 +1,6 @@
+type: fix
+fix:
+  description: Intellij plugin formats objects which include unknown fields. Previously
+    new fields added to existing types resulted in raw json console lines.
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/313

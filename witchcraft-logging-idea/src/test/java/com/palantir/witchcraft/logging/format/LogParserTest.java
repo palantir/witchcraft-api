@@ -32,6 +32,11 @@ class LogParserTest {
             + "\"thread\":\"main\",\"message\":\"test good {}\","
             + "\"params\":{\"good\":\":-)\"},\"unsafeParams\":{},\"tags\":{}}";
 
+    private static final String SERVICE_JSON_WITH_UNKNOWN_FIELD = "{\"type\":\"service.1\",\"level\":\"ERROR\","
+            + "\"time\":\"2019-05-09T15:32:37.692Z\",\"origin\":\"ROOT\","
+            + "\"thread\":\"main\",\"message\":\"test good {}\","
+            + "\"params\":{\"good\":\":-)\"},\"unsafeParams\":{},\"unknownField\":\"value\"}";
+
     private static final String REQUEST_JSON = "{\"type\":\"request.2\",\"time\":\"2019-05-24T12:40:36.703-04:00\","
             + "\"method\":\"GET\",\"protocol\":\"HTTP/1.1\",\"path\":\"/api/sleep/{millis}\","
             + "\"params\":{\"host\":\"localhost:8443\",\"connection\":\"Keep-Alive\","
@@ -108,6 +113,11 @@ class LogParserTest {
     @Test
     void parse_service_logs() {
         assertThat(logParser.tryParse(SERVICE_JSON)).hasValue("serviceV1");
+    }
+
+    @Test
+    void parse_service_logs_with_unknown_field() {
+        assertThat(logParser.tryParse(SERVICE_JSON_WITH_UNKNOWN_FIELD)).hasValue("serviceV1");
     }
 
     @Test
