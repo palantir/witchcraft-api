@@ -61,7 +61,8 @@ public final class LogParser<T> {
             .registerModule(new Jdk8Module().configureAbsentsAsNulls(true))
             .registerModule(new JavaTimeModule())
             .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-            .disable(DeserializationFeature.WRAP_EXCEPTIONS);
+            .disable(DeserializationFeature.WRAP_EXCEPTIONS)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
     private final LogVisitor<T> logVisitor;
     private final WrappedLogDelegatingVisitor<T> wrappedLogDelegatingVisitor;
