@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Remove the idea plugin from this repo. The plugin will live in https://github.com/palantir/witchcraft-java-logging
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/316

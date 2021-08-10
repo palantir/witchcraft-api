@@ -7,10 +7,3 @@
 # witchcraft-api
 
 This repository contains the Conjure definitions for the witchcraft health and logging APIs.
-
-# Intellij Plugin
-[![Version](https://img.shields.io/jetbrains/plugin/v/17344) ![Downloads](http://phpstorm.espend.de/badge/17344/downloads) ![Rating](https://img.shields.io/jetbrains/plugin/r/stars/17344)](https://plugins.jetbrains.com/plugin/17344-witchcraft-logging)
-
-This repository provides an intellij plugin to parse and render witchcraft-api structured logs from IDE console output.
-
-![Plugin Screenshot](static/screenshot.png)
