@@ -46,7 +46,15 @@ publishPlugin {
     token = System.env.JETBRAINS_PLUGIN_REPO_TOKEN
 }
 
-check.dependsOn buildPlugin, verifyPlugin
+runPluginVerifier {
+    ideVersions = [
+            // Idea Community
+            "IC-2021.2",
+            // Goland
+            "GO-2021.2"]
+}
+
+check.dependsOn buildPlugin, verifyPlugin, runPluginVerifier
 tasks.publishPlugin.onlyIf { versionDetails().isCleanTag && System.env.JETBRAINS_PLUGIN_REPO_TOKEN != null }
 tasks.publish.dependsOn publishPlugin
 buildSearchableOptions.enabled = false
