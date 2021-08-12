@@ -1,5 +1,5 @@
-type: improvement
-improvement:
+type: fix
+fix:
   description: Update conjure-java options to prevent runtime failures on existing
     data
   links:
