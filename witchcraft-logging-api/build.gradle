@@ -5,8 +5,10 @@ conjure {
     java {
         undertowServicePrefixes = true
         useImmutableBytes = true
-        strictObjects = true
-        nonNullCollections = true
+        excludeEmptyOptionals = true
+        // Does not include 'strictObjects' or 'nonNullCollections' due
+        // to 'map<string,any>' types where we may need to deserialize JSON
+        // nulls.
     }
 }
 
