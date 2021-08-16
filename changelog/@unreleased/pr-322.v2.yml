@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Update logging APIs based on internal definitions
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/322
