@@ -6,6 +6,7 @@ conjure {
         undertowServicePrefixes = true
         useImmutableBytes = true
         excludeEmptyOptionals = true
+        useStagedBuilders = true
         // Does not include 'strictObjects' or 'nonNullCollections' due
         // to 'map<string,any>' types where we may need to deserialize JSON
         // nulls.

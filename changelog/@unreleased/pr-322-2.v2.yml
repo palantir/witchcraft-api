@@ -1,0 +1,5 @@
+type: break
+break:
+  description: Java generated types use staged builders to prevent runtime failures.
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/322
