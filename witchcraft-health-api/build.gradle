@@ -7,6 +7,8 @@ conjure {
         useImmutableBytes = true
         strictObjects = true
         nonNullCollections = true
+        excludeEmptyOptionals = true
+        useStagedBuilders = true
     }
 }
 

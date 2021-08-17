@@ -1,0 +1,6 @@
+type: break
+break:
+  description: Update logging APIs based on internal definitions. Notably BeaconLogV1
+    has been removed.
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/322

@@ -16,6 +16,18 @@ types:
             docs: Artifact part of entity's maven coordinate
           entityVersion:
             type: string
+          service:
+            type: optional<string>
+            docs: Defaults to the wrapped log producer's Skylab service name.
+          serviceId:
+            type: optional<string>
+            docs: Defaults to the wrapped log producer's Skylab service ID.
+          stack:
+            type: optional<string>
+            docs: Defaults to the wrapped log producer's Skylab stack name.
+          stackId:
+            type: optional<string>
+            docs: Defaults to the wrapped log producer's Skylab stack ID.
 
       WrappedLogV1Payload:
         union:
@@ -36,7 +48,9 @@ types:
             docs: '"service.1"'
           level:
             type: LogLevel
-            docs: The logger output level. One of {FATAL,ERROR,WARN,INFO,DEBUG,TRACE}.
+            docs: >
+              The logger output level. One of {FATAL,ERROR,WARN,INFO,DEBUG,TRACE} based on
+              [log level coding guidelines](https://github.com/palantir/gradle-baseline/blob/develop/docs/best-practices/java-coding-guidelines/readme.md#log-levels)
           time:
             type: datetime
             docs: RFC3339Nano UTC datetime string when the log event was emitted
@@ -54,6 +68,14 @@ types:
               `unsafeParams` with numeric indexes corresponding to the zero-indexed order of placeholders. Renderers
               should substitute numeric parameters from `unsafeParams` and may leave placeholders that do not match
               indexes as the original placeholder text.
+          safe:
+            type: optional<boolean>
+            docs: >
+              Describes the safety of this log event based on prior knowledge within the application which produced
+              the message. This field should not be set to `true` without _total_ confidence that it is correct.
+              * _empty_:  Considered unsafe unless the logging pipeline has special configuration for this `origin`. Eventually these will all be equivalent to `false`.
+              * `true`: All safe components can be trusted.
+              * `false`: Event is _unsafe_ and cannot be exported.
           params:
             type: map<string, any>
             docs: Known-safe parameters (redaction may be used to make params knowably safe, but is not required).
@@ -390,48 +412,6 @@ types:
             type: map<string, any>
             docs: |
               Unsafe metadata describing the event
-      BeaconLogV1:
-        docs: |
-          Definition of the beacon.1 format.
-        fields:
-          type: string
-          time: datetime
-          eventType:
-            type: string
-            docs: |
-              Dot-delimited name for the structure of the params block, e.g. `compass.SearchEvent.v1`
-          appName:
-            type: string
-            docs: |
-              Name of the application that created the log
-          appVersion:
-            type: string
-            docs: |
-              Version of the application that created the log
-          params:
-            type: map<string, any>
-            docs: |
-              Known-safe parameters (redaction may be used to make params knowably safe, but is not required)
-          browserId:
-            type: optional<string>
-            docs: |
-              Browser identifier (if available)
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available)
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
-          unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unredacted parameters
       AuditLogV2:
         docs: |
           Definition of the audit.2 format.
@@ -571,7 +551,6 @@ types:
         union:
           eventLog: EventLogV1
           eventLogV2: EventLogV2
-          beaconLog: BeaconLogV1
       LogLevel:
         values:
           - FATAL
@@ -588,3 +567,47 @@ types:
         alias: string
       TraceId:
         alias: string
+
+      WitchcraftEnvelopeV1:
+        docs: |
+          Wraps a log entry with metadata on where it is coming from and the source service that generated it.
+        fields:
+          type:
+            type: string
+            docs: '"envelope.1"'
+          deployment:
+            type: string
+            docs: Color or other codename for the customer infra
+          environment:
+            type: string
+            docs: prod/staging/integration etc.
+          environmentId:
+            type: string
+            docs: Skylab environment ID
+          host:
+            type: string
+            docs: Hostname where the log message originated
+          nodeId:
+            type: string
+            docs: Skylab node ID
+          service:
+            type: string
+            docs: Skylab service name
+          serviceId:
+            type: string
+            docs: Skylab service ID
+          stack:
+            type: string
+            docs: Skylab stack name
+          stackId:
+            type: string
+            docs: Skylab stack ID
+          product:
+            type: string
+            docs: Artifact part of product's maven coordinate
+          productVersion:
+            type: string
+            docs: Artifact semantic version
+          payload:
+            docs: One of the Witchcraft log types; see [witchcraft-api](https://github.com/palantir/witchcraft-api) for details.
+            type: any
