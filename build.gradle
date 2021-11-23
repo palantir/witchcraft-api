@@ -20,6 +20,7 @@ apply plugin: 'com.palantir.external-publish'
 apply plugin: 'com.palantir.baseline'
 apply plugin: 'com.palantir.git-version'
 apply plugin: 'com.palantir.consistent-versions'
+apply plugin: 'com.palantir.baseline-java-versions'
 
 version System.env.CIRCLE_TAG ?: gitVersion()
 
@@ -43,5 +44,8 @@ subprojects {
     }
 
     tasks.check.dependsOn(javadoc)
-    sourceCompatibility = 1.8
+}
+
+javaVersions {
+    libraryTarget = 11
 }
