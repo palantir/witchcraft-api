@@ -1,0 +1,8 @@
+type: improvement
+improvement:
+  description: |-
+    Add AuditLogV3
+
+    Synchronizing with our internal definitions
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/564
