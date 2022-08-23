@@ -461,6 +461,153 @@ types:
             type: map<string, any>
             docs: |
               Information derived within a method, commonly parts of the return value.
+      AuditLogV3:
+        fields:
+          type:
+            type: string
+            docs: '"audit.3"'
+          deployment:
+            type: string
+            docs: The deployment that produced this log. Not exposed to downstream consumers.
+          host:
+            type: string
+            docs: The host of the service that produced this log.
+          product:
+            type: string
+            docs: The name of the product that produced this log.
+          productVersion:
+            type: string
+            docs: The version of the product that produced this log.
+          stack:
+            type: optional<string>
+            docs: The stack that this log was generated on.
+          service:
+            type: optional<string>
+            docs: The service name that produced this log.
+          environment:
+            type: optional<string>
+            docs: The environment that produced this log.
+          producerType:
+            type: AuditProducer
+            docs: How this audit log was produced, eg. from a backend Server, frontend Client etc.
+          organizations:
+            type: list<Organization>
+            docs: |
+              A list of organizations that have been attributed to this log.
+              Attribution is typically based on the user that originated this log, and the resources that
+              they targeted.
+              Not exposed to downstream consumers.
+          eventId:
+            type: uuid
+            docs: Unique identifier for this audit log event.
+          userAgent:
+            type: optional<string>
+            docs: The user agent of the user that originated this log.
+          categories:
+            type: list<string>
+            docs: |
+              All audit categories produced by this audit event.
+              Each audit categories produces a set of keys that will be distributed between the request and
+              response params.
+          entities:
+            type: list<any>
+            docs: |
+              All contextualized entities present in the request and response params of this log.
+              Note: Some resources cannot be contextualized, and will not be included in this list as a result.
+          users:
+            type: list<ContextualizedUser>
+            docs: |
+              All contextualized users present in the request and response params of this log, including the top level
+              UUID of this log.
+          origins:
+            type: list<string>
+            docs: |
+              All addresses attached to the request. Contains information
+              from unreliable sources such as the X-Forwarded-For header.
+
+              This value can be spoofed.
+          sourceOrigin:
+            type: optional<string>
+            docs: |
+              Origin of the network request. If a request goes through a proxy,
+              this will contain the proxy''s address.
+
+              This value is verified through the TCP stack.
+          requestParams:
+            type: map<string, SensitivityTaggedValue>
+            docs: |
+              The parameters known at method invocation time.
+
+              Note that all keys must be known to the audit library. Typically, entries in the request and response
+              params will be dependent on the `categories` field defined above.
+          resultParams:
+            type: map<string, SensitivityTaggedValue>
+            docs: |
+              Information derived within a method, commonly parts of the return value.
+
+              Note that all keys must be known to the audit library. Typically, entries in the request and response
+              params will be dependent on the `categories` field defined above.
+          time: datetime
+          uid:
+            type: optional<UserId>
+            docs: |
+              User id (if available). This is the most downstream caller.
+          sid:
+            type: optional<SessionId>
+            docs: |
+              Session id (if available)
+          tokenId:
+            type: optional<TokenId>
+            docs: |
+              API token id (if available)
+          traceId:
+            type: optional<TraceId>
+            docs: |
+              Zipkin trace id (if available)
+          origin:
+            type: optional<string>
+            docs: |
+              Best-effort identifier of the originating machine, e.g. an
+              IP address, a Kubernetes node identifier, or similar.
+
+              This value can be spoofed.
+          name:
+            type: string
+            docs: |
+              Name of the audit event, e.g. PUT_FILE
+          result:
+            type: AuditResult
+            docs: |
+              Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
+      AuditProducer:
+        values:
+          - SERVER
+          - CLIENT
+      Organization:
+        fields:
+          id:
+            docs: Organization ID. Not exposed to downstream consumers.
+            type: string
+          reason:
+            docs: Explaination of why this organization was attributed to this log.
+            type: string
+      ContextualizedUser:
+        fields:
+          uid: UserId
+          userName: optional<string>
+          firstName: optional<string>
+          lastName: optional<string>
+          groups: list<string>
+          realm: optional<string>
+      SensitivityTaggedValue:
+        fields:
+          level:
+            docs: |
+              Sensitivity level of this value; must be a known level in sls-spec.
+            type: list<string>
+          payload:
+            type: any
+
       DiagnosticLogV1:
         docs: |
           Definition of the diagnostic.1 format.
@@ -544,8 +691,13 @@ types:
       AuditResult:
         values:
           - SUCCESS
-          - UNAUTHORIZED
           - ERROR
+          - UNAUTHORIZED
+          - value: PARTIAL
+            docs: >
+              A result that has not yet been finalized. It may be missing fields from
+              resultParams, and it is expected that a non-partial log should occur in the
+              future with the same event ID.
       UnionEventLog:
         docs: Union type containing log types that are logged to event.log.
         union:
