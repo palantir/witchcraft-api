@@ -89,6 +89,9 @@ types:
           tokenId:
             type: optional<TokenId>
             docs: API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: Zipkin trace id (if available)
@@ -158,6 +161,9 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -228,6 +234,9 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -245,6 +254,7 @@ types:
           uid: optional<UserId>
           sid: optional<SessionId>
           tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
           unsafeParams: map<string, any>
           span: Span
       Span:
@@ -335,6 +345,10 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: |
+              Organization id (if available)
           unsafeParams:
             type: map<string, any>
             docs: |
@@ -364,6 +378,10 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: |
+              Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -408,6 +426,10 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: |
+              Organization id (if available)
           unsafeParams:
             type: map<string, any>
             docs: |
@@ -432,6 +454,10 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: |
+              Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -560,6 +586,10 @@ types:
             type: optional<TokenId>
             docs: |
               API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: |
+              Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -586,10 +616,10 @@ types:
       Organization:
         fields:
           id:
-            docs: Organization ID. Not exposed to downstream consumers.
+            docs: Organization RID. Not exposed to downstream consumers.
             type: string
           reason:
-            docs: Explaination of why this organization was attributed to this log.
+            docs: Explanation of why this organization was attributed to this log.
             type: string
       ContextualizedUser:
         fields:
@@ -716,6 +746,8 @@ types:
       SessionId:
         alias: string
       TokenId:
+        alias: string
+      OrganizationId:
         alias: string
       TraceId:
         alias: string

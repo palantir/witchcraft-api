@@ -1,0 +1,5 @@
+type: feature
+feature:
+  description: All logs now include an `orgId` field.
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/663
