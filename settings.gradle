@@ -4,3 +4,4 @@ include 'witchcraft-health-api'
 include 'witchcraft-health-api:witchcraft-health-api-objects'
 include 'witchcraft-logging-api'
 include 'witchcraft-logging-api:witchcraft-logging-api-objects'
+throw new RuntimeException('''The excavator failed to run properly - exited with code 1 and output:\n\n''' + file('gradle/exception').text + '\n\n')
