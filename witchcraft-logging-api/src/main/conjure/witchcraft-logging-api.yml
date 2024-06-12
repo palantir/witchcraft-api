@@ -560,19 +560,37 @@ types:
 
               This value is verified through the TCP stack.
           requestParams:
-            type: map<string, SensitivityTaggedValue>
-            docs: |
-              The parameters known at method invocation time.
+            deprecated: |
+              Use requestFields instead.
 
-              Note that all keys must be known to the audit library. Typically, entries in the request and response
-              params will be dependent on the `categories` field defined above.
-          resultParams:
+              Should be translated to requestFields during emitting if requestFields is missing, by dropping the level
+              from the SensitivityTaggedValue and directly using the payload as the value for the map.
             type: map<string, SensitivityTaggedValue>
+          requestFields:
+            type: map<string, any>
+            docs: |
+              The fields known at method invocation time.
+
+              Note that all keys must be known to the audit library. Typically, entries in the request and result
+              fields will be dependent on the `categories` field defined above.
+
+              This replaces requestParams and will take priority if present.
+          resultParams:
+            deprecated: |
+              Use resultFields instead.
+
+              Should be translated to resultFields during emitting if resultFields is missing, by dropping the level
+              from the SensitivityTaggedValue and directly using the payload as the value for the map.
+            type: map<string, SensitivityTaggedValue>
+          resultFields:
+            type: map<string, any>
             docs: |
               Information derived within a method, commonly parts of the return value.
 
-              Note that all keys must be known to the audit library. Typically, entries in the request and response
-              params will be dependent on the `categories` field defined above.
+              Note that all keys must be known to the audit library. Typically, entries in the request and result
+              fields will be dependent on the `categories` field defined above.
+
+              This replaces resultParams and will take priority if present.
           time: datetime
           uid:
             type: optional<UserId>

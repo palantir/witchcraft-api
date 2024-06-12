@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Update AuditLogV3 to switch to less-nested fields by removing unusable SensitivityTaggedValue levels in a non-breaking way.
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/831
