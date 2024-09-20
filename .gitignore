@@ -41,3 +41,6 @@ generated/
 
 # Blueprint theme
 __init__.pyc
+
+# Gradle JDKs setup
+!gradle/*
