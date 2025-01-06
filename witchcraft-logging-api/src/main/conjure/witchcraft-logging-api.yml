@@ -37,6 +37,7 @@ types:
           eventLogV2: EventLogV2
           metricLogV1: MetricLogV1
           auditLogV2: AuditLogV2
+          auditLogV3: AuditLogV3
           diagnosticLogV1: DiagnosticLogV1
 
       ServiceLogV1:
@@ -347,8 +348,7 @@ types:
               API token id (if available)
           orgId:
             type: optional<OrganizationId>
-            docs: |
-              Organization id (if available)
+            docs: Organization id (if available)
           unsafeParams:
             type: map<string, any>
             docs: |
@@ -380,8 +380,7 @@ types:
               API token id (if available)
           orgId:
             type: optional<OrganizationId>
-            docs: |
-              Organization id (if available)
+            docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -410,6 +409,10 @@ types:
             type: map<string, any>
             docs: |
               Observations, measurements and context associated with the metric
+          samples:
+            type: list<Sample>
+            docs: |
+              List of samples (if any) associated with the metric
           tags:
             type: map<string, string>
             docs: |
@@ -428,8 +431,7 @@ types:
               API token id (if available)
           orgId:
             type: optional<OrganizationId>
-            docs: |
-              Organization id (if available)
+            docs: Organization id (if available)
           unsafeParams:
             type: map<string, any>
             docs: |
@@ -456,8 +458,7 @@ types:
               API token id (if available)
           orgId:
             type: optional<OrganizationId>
-            docs: |
-              Organization id (if available)
+            docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -525,7 +526,16 @@ types:
               Not exposed to downstream consumers.
           eventId:
             type: uuid
-            docs: Unique identifier for this audit log event.
+            docs: |
+              Unique identifier for this audit log event. If there are multiple log entries associated with this
+              particular audit event, they will share the same eventId but will have different logEntryId and different
+              sequenceId.
+          logEntryId:
+            type: optional<uuid>
+            docs: Unique identifier for this audit log.
+          sequenceId:
+            type: optional<integer>
+            docs: Orders the log entries when there are multiple entries for the same event.
           userAgent:
             type: optional<string>
             docs: The user agent of the user that originated this log.
@@ -566,6 +576,11 @@ types:
               Should be translated to requestFields during emitting if requestFields is missing, by dropping the level
               from the SensitivityTaggedValue and directly using the payload as the value for the map.
             type: map<string, SensitivityTaggedValue>
+            docs: |
+              The parameters known at method invocation time.
+
+              Note that all keys must be known to the audit library. Typically, entries in the request and response
+              params will be dependent on the `categories` field defined above.
           requestFields:
             type: map<string, any>
             docs: |
@@ -582,6 +597,11 @@ types:
               Should be translated to resultFields during emitting if resultFields is missing, by dropping the level
               from the SensitivityTaggedValue and directly using the payload as the value for the map.
             type: map<string, SensitivityTaggedValue>
+            docs: |
+              Information derived within a method, commonly parts of the return value.
+
+              Note that all keys must be known to the audit library. Typically, entries in the request and response
+              params will be dependent on the `categories` field defined above.
           resultFields:
             type: map<string, any>
             docs: |
@@ -606,8 +626,7 @@ types:
               API token id (if available)
           orgId:
             type: optional<OrganizationId>
-            docs: |
-              Organization id (if available)
+            docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
             docs: |
@@ -684,6 +703,17 @@ types:
           value:
             type: any
             docs: Observations, measurements and context associated with the diagnostic.
+      Sample:
+        fields:
+          value:
+            type: any
+            docs: Exact value of this metric sample
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string of when the sample was taken
+          traceId:
+            type: optional<TraceId>
+            docs: Zipkin trace id associated with this sample, if available
       ThreadDumpV1:
         fields:
           threads:
@@ -759,13 +789,13 @@ types:
           - INFO
           - DEBUG
           - TRACE
+      OrganizationId:
+        alias: string
       UserId:
         alias: string
       SessionId:
         alias: string
       TokenId:
-        alias: string
-      OrganizationId:
         alias: string
       TraceId:
         alias: string
@@ -813,3 +843,9 @@ types:
           payload:
             docs: One of the Witchcraft log types; see [witchcraft-api](https://github.com/palantir/witchcraft-api) for details.
             type: any
+          apolloEntityId:
+            type: string
+            docs: Apollo entity id
+          apolloEnvironmentId:
+            type: string
+            docs: Apollo environment id
