@@ -493,12 +493,6 @@ types:
           type:
             type: string
             docs: '"audit.3"'
-          deployment:
-            type: string
-            docs: The deployment that produced this log. Not exposed to downstream consumers.
-          host:
-            type: string
-            docs: The host of the service that produced this log.
           product:
             type: string
             docs: The name of the product that produced this log.
@@ -511,6 +505,12 @@ types:
           service:
             type: optional<string>
             docs: The service name that produced this log.
+          host:
+            type: optional<string>
+            docs: The host of the service that produced this log.
+          deployment:
+            type: optional<string>
+            docs: The deployment that produced this log.
           environment:
             type: optional<string>
             docs: The environment that produced this log.
