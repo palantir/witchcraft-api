@@ -1,0 +1,5 @@
+type: improvement
+improvement:
+  description: Make deployment and host fields optional on `AuditLogV3`
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/1007
