@@ -1,6 +1,5 @@
 apply plugin: 'com.palantir.conjure'
 apply plugin: 'com.palantir.external-publish-conjure'
-apply plugin: 'com.palantir.idea-configuration'
 
 conjure {
     java {
