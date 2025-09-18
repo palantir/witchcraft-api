@@ -1,10 +1,10 @@
 # Run ./gradlew writeVersionsLocks to regenerate this file. Blank lines are to minimize merge conflicts.
 
-com.fasterxml.jackson.core:jackson-annotations:2.19.2 (4 constraints: 50409a28)
+com.fasterxml.jackson.core:jackson-annotations:2.19.2 (4 constraints: 5540a928)
 
 com.fasterxml.jackson.core:jackson-core:2.19.2 (2 constraints: b3220f33)
 
-com.fasterxml.jackson.core:jackson-databind:2.19.2 (3 constraints: fd2d468b)
+com.fasterxml.jackson.core:jackson-databind:2.19.2 (3 constraints: 022e558b)
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: 980fcc86)
 
@@ -18,23 +18,23 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.0.0 (1 constraints: 150aeab4)
 
-com.palantir.conjure.java:conjure-lib:8.55.0 (1 constraints: 3e055d3b)
+com.palantir.conjure.java:conjure-lib:8.56.0 (1 constraints: 3e055d3b)
 
-com.palantir.conjure.java.api:errors:2.63.0 (1 constraints: 2310a7a9)
+com.palantir.conjure.java.api:errors:2.65.0 (1 constraints: 2510ada9)
 
 com.palantir.ri:resource-identifier:2.11.0 (1 constraints: 1c108da9)
 
-com.palantir.safe-logging:logger:3.9.0 (2 constraints: 321c1dba)
+com.palantir.safe-logging:logger:3.9.0 (2 constraints: 371cf9ba)
 
 com.palantir.safe-logging:logger-slf4j:3.9.0 (1 constraints: 070e6e42)
 
 com.palantir.safe-logging:logger-spi:3.9.0 (2 constraints: 1d1e0c7c)
 
-com.palantir.safe-logging:preconditions:3.9.0 (5 constraints: 294b936b)
+com.palantir.safe-logging:preconditions:3.9.0 (5 constraints: 2e4b6f6c)
 
 com.palantir.safe-logging:safe-logging:3.9.0 (6 constraints: 845de5f2)
 
-com.palantir.tokens:auth-tokens:3.18.0 (1 constraints: 2410a8a9)
+com.palantir.tokens:auth-tokens:3.19.0 (1 constraints: 2510aba9)
 
 com.palantir.tritium:tritium-ids:0.104.0 (1 constraints: f80f86a6)
 
@@ -48,7 +48,7 @@ org.jetbrains:annotations:26.0.2 (3 constraints: 3826c998)
 
 org.jspecify:jspecify:1.0.0 (2 constraints: 6e19b7e8)
 
-org.slf4j:slf4j-api:1.7.36 (2 constraints: 561e8a97)
+org.slf4j:slf4j-api:2.0.17 (2 constraints: 4f1e7197)
 
 
 
