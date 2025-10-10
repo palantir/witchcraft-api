@@ -56,7 +56,7 @@ subprojects {
 
 javaVersions {
     libraryTarget = 17
-    runtime = 21
+    runtime = 25
 }
 
 jdks {
