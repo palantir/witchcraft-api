@@ -2,9 +2,9 @@
 
 com.fasterxml.jackson.core:jackson-annotations:2.20 (5 constraints: f443b77f)
 
-com.fasterxml.jackson.core:jackson-core:2.20.0 (2 constraints: 9f220731)
+com.fasterxml.jackson.core:jackson-core:2.20.1 (2 constraints: a0223731)
 
-com.fasterxml.jackson.core:jackson-databind:2.20.0 (3 constraints: ee2dbd87)
+com.fasterxml.jackson.core:jackson-databind:2.20.1 (3 constraints: ee2dbd87)
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: 980fcc86)
 
