@@ -1,14 +1,14 @@
 # Run ./gradlew writeVersionsLocks to regenerate this file. Blank lines are to minimize merge conflicts.
 
-com.fasterxml.jackson.core:jackson-annotations:2.20 (5 constraints: f443b77f)
+com.fasterxml.jackson.core:jackson-annotations:2.20 (5 constraints: 8e43ba03)
 
 com.fasterxml.jackson.core:jackson-core:2.20.1 (2 constraints: a1223831)
 
-com.fasterxml.jackson.core:jackson-databind:2.20.1 (3 constraints: e52d6286)
+com.fasterxml.jackson.core:jackson-databind:2.20.1 (3 constraints: e72d8d86)
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: 980fcc86)
 
-com.google.errorprone:error_prone_annotations:2.41.0 (7 constraints: 5a697238)
+com.google.errorprone:error_prone_annotations:2.41.0 (7 constraints: 2769fece)
 
 com.google.guava:failureaccess:1.0.3 (1 constraints: 160ae3b4)
 
@@ -18,11 +18,11 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.conjure.java:conjure-lib:8.67.0 (1 constraints: 3e055d3b)
+com.palantir.conjure.java:conjure-lib:8.69.0 (1 constraints: 3e055d3b)
 
-com.palantir.conjure.java.api:errors:2.67.0 (1 constraints: 2710b3a9)
+com.palantir.conjure.java.api:errors:2.68.0 (1 constraints: 2810b6a9)
 
-com.palantir.ri:resource-identifier:2.11.0 (1 constraints: 1c108da9)
+com.palantir.ri:resource-identifier:2.12.0 (1 constraints: 1d1090a9)
 
 com.palantir.safe-logging:logger:3.9.0 (2 constraints: 371cf9ba)
 
@@ -30,19 +30,19 @@ com.palantir.safe-logging:logger-slf4j:3.9.0 (1 constraints: 070e6e42)
 
 com.palantir.safe-logging:logger-spi:3.9.0 (2 constraints: 1d1e0c7c)
 
-com.palantir.safe-logging:preconditions:3.9.0 (5 constraints: 2e4b6f6c)
+com.palantir.safe-logging:preconditions:3.10.0 (5 constraints: 564b0597)
 
-com.palantir.safe-logging:safe-logging:3.9.0 (6 constraints: 845de5f2)
+com.palantir.safe-logging:safe-logging:3.10.0 (6 constraints: d45d9083)
 
-com.palantir.tokens:auth-tokens:3.20.0 (1 constraints: 1d1094a9)
+com.palantir.tokens:auth-tokens:3.21.0 (1 constraints: 1e1097a9)
 
-com.palantir.tritium:tritium-ids:0.117.0 (1 constraints: fc0f93a6)
+com.palantir.tritium:tritium-ids:0.122.0 (1 constraints: f80f88a6)
 
 org.eclipse.collections:eclipse-collections:13.0.0 (1 constraints: 1c1091a9)
 
 org.eclipse.collections:eclipse-collections-api:13.0.0 (2 constraints: fa22df26)
 
-org.immutables:value:2.11.7 (1 constraints: ce0f9a96)
+org.immutables:value:2.12.1 (1 constraints: c90f9796)
 
 org.jetbrains:annotations:26.0.2 (3 constraints: 3826c998)
 
