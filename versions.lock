@@ -1,14 +1,14 @@
 # Run ./gradlew writeVersionsLocks to regenerate this file. Blank lines are to minimize merge conflicts.
 
-com.fasterxml.jackson.core:jackson-annotations:2.21 (5 constraints: 9043ed04)
+com.fasterxml.jackson.core:jackson-annotations:2.21 (5 constraints: 93436905)
 
-com.fasterxml.jackson.core:jackson-core:2.21.0 (2 constraints: a1223a31)
+com.fasterxml.jackson.core:jackson-core:2.21.0 (2 constraints: a1223c31)
 
-com.fasterxml.jackson.core:jackson-databind:2.21.0 (3 constraints: e72d8d86)
+com.fasterxml.jackson.core:jackson-databind:2.21.0 (3 constraints: e72d9386)
 
 com.google.code.findbugs:jsr305:3.0.2 (1 constraints: 980fcc86)
 
-com.google.errorprone:error_prone_annotations:2.41.0 (7 constraints: 2769fece)
+com.google.errorprone:error_prone_annotations:2.41.0 (7 constraints: 8e6808be)
 
 com.google.guava:failureaccess:1.0.3 (1 constraints: 160ae3b4)
 
@@ -18,25 +18,25 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.conjure.java:conjure-lib:8.69.0 (1 constraints: 3e055d3b)
+com.palantir.conjure.java:conjure-lib:8.70.0 (1 constraints: 3e055d3b)
 
-com.palantir.conjure.java.api:errors:2.68.0 (1 constraints: 2810b6a9)
+com.palantir.conjure.java.api:errors:2.69.0 (1 constraints: 2910b9a9)
 
-com.palantir.ri:resource-identifier:2.12.0 (1 constraints: 1d1090a9)
+com.palantir.ri:resource-identifier:2.13.0 (1 constraints: 1e1093a9)
 
-com.palantir.safe-logging:logger:3.9.0 (2 constraints: 371cf9ba)
+com.palantir.safe-logging:logger:3.11.0 (2 constraints: 891cefeb)
 
-com.palantir.safe-logging:logger-slf4j:3.9.0 (1 constraints: 070e6e42)
+com.palantir.safe-logging:logger-slf4j:3.11.0 (1 constraints: 300e8a50)
 
-com.palantir.safe-logging:logger-spi:3.9.0 (2 constraints: 1d1e0c7c)
+com.palantir.safe-logging:logger-spi:3.11.0 (2 constraints: 6f1e0ab0)
 
-com.palantir.safe-logging:preconditions:3.10.0 (5 constraints: 564b0597)
+com.palantir.safe-logging:preconditions:3.11.0 (5 constraints: fb4bc897)
 
-com.palantir.safe-logging:safe-logging:3.10.0 (6 constraints: d45d9083)
+com.palantir.safe-logging:safe-logging:3.11.0 (6 constraints: 7a5ea9a7)
 
-com.palantir.tokens:auth-tokens:3.21.0 (1 constraints: 1e1097a9)
+com.palantir.tokens:auth-tokens:3.22.0 (1 constraints: 1f109aa9)
 
-com.palantir.tritium:tritium-ids:0.122.0 (1 constraints: f80f88a6)
+com.palantir.tritium:tritium-ids:0.124.0 (1 constraints: fa0f8ea6)
 
 org.eclipse.collections:eclipse-collections:13.0.0 (1 constraints: 1c1091a9)
 
