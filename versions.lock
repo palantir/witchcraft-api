@@ -18,7 +18,7 @@ com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 c
 
 com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
-com.palantir.conjure.java:conjure-lib:8.72.0 (1 constraints: 3e055d3b)
+com.palantir.conjure.java:conjure-lib:8.74.0 (1 constraints: 3e055d3b)
 
 com.palantir.conjure.java.api:errors:2.70.0 (1 constraints: 2110a2a9)
 
@@ -34,7 +34,7 @@ com.palantir.safe-logging:preconditions:3.12.0 (5 constraints: 004c8299)
 
 com.palantir.safe-logging:safe-logging:3.12.0 (6 constraints: 805e6eaa)
 
-com.palantir.tokens:auth-tokens:3.23.0 (1 constraints: 20109da9)
+com.palantir.tokens:auth-tokens:4.0.0 (1 constraints: ec0f7499)
 
 com.palantir.tritium:tritium-ids:0.125.0 (1 constraints: fb0f91a6)
 
@@ -46,7 +46,7 @@ org.immutables:value:2.12.1 (1 constraints: c90f9796)
 
 org.jetbrains:annotations:26.1.0 (3 constraints: 36269a98)
 
-org.jspecify:jspecify:1.0.0 (5 constraints: fc4e1511)
+org.jspecify:jspecify:1.0.0 (6 constraints: cb5c8959)
 
 org.slf4j:slf4j-api:2.0.17 (2 constraints: 4f1e7197)
 
