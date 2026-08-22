@@ -1,6 +1,0 @@
-type: fix
-fix:
-  description: Update conjure-java options to prevent runtime failures on existing
-    data
-  links:
-  - https://github.com/palantir/witchcraft-api/pull/319
