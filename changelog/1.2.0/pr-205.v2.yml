@@ -1,5 +1,0 @@
-type: improvement
-improvement:
-  description: Add tags to Trace Span
-  links:
-  - https://github.com/palantir/witchcraft-api/pull/205
