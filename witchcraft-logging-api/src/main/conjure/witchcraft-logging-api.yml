@@ -381,6 +381,9 @@ types:
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
+          svc:
+            type: optional<Service>
+            docs: Service (if available). This is the most downstream calling service.
           traceId:
             type: optional<TraceId>
             docs: |
@@ -459,6 +462,9 @@ types:
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
+          svc:
+            type: optional<Service>
+            docs: Service (if available). This is the most downstream calling service.
           traceId:
             type: optional<TraceId>
             docs: |
@@ -627,6 +633,9 @@ types:
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
+          svc:
+            type: optional<Service>
+            docs: Service (if available). This is the most downstream calling service.
           traceId:
             type: optional<TraceId>
             docs: |
@@ -798,6 +807,8 @@ types:
       TokenId:
         alias: string
       TraceId:
+        alias: string
+      Service:
         alias: string
 
       WitchcraftEnvelopeV1:
