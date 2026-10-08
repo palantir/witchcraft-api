@@ -1,5 +1,5 @@
 com.fasterxml.jackson.*:* = 2.22.3
 com.fasterxml.jackson.core:jackson-annotations = 2.22
-com.palantir.conjure.java:* = 8.93.0
+com.palantir.conjure.java:* = 8.95.0
 com.palantir.conjure:conjure = 4.65.0
 org.junit.platform:* = 6.1.3
