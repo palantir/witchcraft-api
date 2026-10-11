@@ -78,12 +78,11 @@ types:
               * `true`: All safe components can be trusted.
               * `false`: Event is _unsafe_ and cannot be exported.
           params:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: Known-safe parameters (redaction may be used to make params knowably safe, but is not required).
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available).
+            docs: User id (if available)
           sid:
             type: optional<SessionId>
             docs: Session id (if available)
@@ -96,18 +95,18 @@ types:
           traceId:
             type: optional<TraceId>
             docs: Zipkin trace id (if available)
+          unsafeParams:
+            type: optional<map<string, any>>
+            docs: Unredacted parameters
+          tags:
+            type: optional<map<string, string>>
+            docs: Additional dimensions that describe the instance of the log event
           stacktrace:
             type: optional<string>
             docs: >
               Language-specific stack trace. Content is knowably safe. Renderers should substitute named placeholders
               ({name}, for name as a key) with keyed value from unsafeParams and leave non-matching keys as the original
               placeholder text.
-          unsafeParams:
-            type: map<string, any>
-            docs: Unredacted parameters
-          tags:
-            type: map<string, string>
-            docs: Additional dimensions that describe the instance of the log event
       RequestLog:
         union:
           v1: RequestLogV1
@@ -116,63 +115,56 @@ types:
         docs: |
           Definition of the request.2 format.
         fields:
-          type: string
-          time: datetime
+          type:
+            type: string
+            docs: '"request.2"'
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
           method:
             type: optional<string>
-            docs: |
-              HTTP method of request
+            docs: HTTP method of request
           protocol:
             type: string
-            docs: |
+            docs: >
               Protocol, e.g. `HTTP/1.1`, `HTTP/2`
           path:
             type: string
-            docs: |
+            docs: >
               Path of request. If templated, the unrendered path, e.g.: `/catalog/dataset/{datasetId}`, `/{rid}/paths/contents/{path:.*}`.
           params:
-            type: map<string, any>
-            docs: |
-              Known-safe parameters
+            type: optional<map<string, any>>
+            docs: Known-safe parameters
           status:
             type: integer
-            docs: |
-              HTTP status code of response
+            docs: HTTP status code of response
           requestSize:
             type: safelong
-            docs: |
-              Size of request (bytes)
+            docs: Size of request (bytes)
           responseSize:
             type: safelong
-            docs: |
-              Size of response (bytes)
+            docs: Size of response (bytes)
           duration:
             type: safelong
-            docs: |
-              Amount of time spent handling request (microseconds)
+            docs: Amount of time spent handling request (microseconds)
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available)
+            docs: User id (if available)
           sid:
             type: optional<SessionId>
-            docs: |
-              Session id (if available)
+            docs: Session id (if available)
           tokenId:
             type: optional<TokenId>
-            docs: |
-              API token id (if available)
+            docs: API token id (if available)
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
+            docs: Zipkin trace id (if available)
           unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unredacted parameters such as path, query and header parameters
+            type: optional<map<string, any>>
+            docs: Unredacted parameters such as path, query and header parameters
       RequestLogV1:
         docs: |
           Definition of the request.1 format.
@@ -250,72 +242,77 @@ types:
         docs: |
           Definition of the trace.1 format.
         fields:
-          type: string
-          time: datetime
-          uid: optional<UserId>
-          sid: optional<SessionId>
-          tokenId: optional<TokenId>
-          orgId: optional<OrganizationId>
-          unsafeParams: map<string, any>
-          span: Span
+          type:
+            type: string
+            docs: '"trace.1"'
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
+          span:
+            type: Span
+          uid:
+            type: optional<UserId>
+            docs: User id (if available)
+          sid:
+            type: optional<SessionId>
+            docs: Session id (if available)
+          tokenId:
+            type: optional<TokenId>
+            docs: API token id (if available)
+          orgId:
+            type: optional<OrganizationId>
+            docs: Organization id (if available)
+          unsafeParams:
+            type: optional<map<string, any>>
       Span:
         docs: A Zipkin-compatible Span object.
         fields:
           traceId:
             type: string
-            docs: |
+            docs: >
               16-digit hex trace identifier
           id:
             type: string
-            docs: |
-              16-digit hex span identifier
+            docs: 16-digit hex span identifier
           name:
             type: string
-            docs: |
-              Name of the span (typically the operation/RPC/method name for corresponding to this span)
+            docs: Name of the span (typically the operation/RPC/method name for corresponding to this span)
           parentId:
             type: optional<string>
-            docs: |
-              16-digit hex identifer of the parent span
+            docs: 16-digit hex identifer of the parent span
           timestamp:
             type: safelong
-            docs: |
-              Timestamp of the start of this span (epoch microsecond value)
+            docs: Timestamp of the start of this span (epoch microsecond value)
           duration:
             type: safelong
-            docs: |
-              Duration of this span (microseconds)
-          annotations: list<Annotation>
+            docs: Duration of this span (microseconds)
+          annotations: optional<list<Annotation>>
           tags:
-            type: map<string, string>
-            docs: |
-              Additional dimensions that describe the instance of the trace span
+            type: optional<map<string, string>>
+            docs: Additional dimensions that describe the instance of the trace span
       Annotation:
         docs: A Zipkin-compatible Annotation object.
         fields:
           timestamp:
             type: safelong
-            docs: |
+            docs: >
               Time annotation was created (epoch microsecond value)
           value:
             type: string
-            docs: |
+            docs: >
               Value encapsulated by this annotation
           endpoint: Endpoint
       Endpoint:
         fields:
           serviceName:
             type: string
-            docs: |
-              Name of the service that generated the annotation
+            docs: Name of the service that generated the annotation
           ipv4:
             type: optional<string>
-            docs: |
-              IPv4 address of the machine that generated this annotation (`xxx.xxx.xxx.xxx`)
+            docs: IPv4 address of the machine that generated this annotation (`xxx.xxx.xxx.xxx`)
           ipv6:
             type: optional<string>
-            docs: |
-              IPv6 address of the machine that generated this annotation (standard hextet form)
+            docs: IPv6 address of the machine that generated this annotation (standard hextet form)
 
       EventLogV1:
         docs: Definition of the event.1 format.
@@ -331,7 +328,7 @@ types:
             docs: |
               Type of event being represented, e.g. `gauge`, `histogram`, `counter`
           values:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: |
               Observations, measurements and context associated with the event
           uid:
@@ -356,85 +353,81 @@ types:
       EventLogV2:
         docs: Definition of the event.2 format.
         fields:
-          type: string
-          time: datetime
+          type:
+            type: string
+            docs: '"event.2"'
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
           eventName:
             type: string
-            docs: |
+            docs: >
               Dot-delimited name of event, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
           values:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: >
               Observations, measurements and context associated with the event
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available)
+            docs: User id (if available)
           sid:
             type: optional<SessionId>
-            docs: |
-              Session id (if available)
+            docs: Session id (if available)
           tokenId:
             type: optional<TokenId>
-            docs: |
-              API token id (if available)
+            docs: API token id (if available)
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
+            docs: Zipkin trace id (if available)
           unsafeParams:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: >
               Unsafe metadata describing the event
           tags:
-            type: map<string, string>
+            type: optional<map<string, string>>
             docs: Additional dimensions that describe the instance of the log event
       MetricLogV1:
         docs: Definition of the metric.1 format.
         fields:
-          type: string
-          time: datetime
+          type:
+            type: string
+            docs: '"metric.1"'
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
           metricName:
             type: string
-            docs: |
-              Dot-delimited name of metric, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
+            docs: Dot-delimited name of metric, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
           metricType:
             type: string
-            docs: |
-              Type of metric being represented, e.g. `gauge`, `histogram`, `counter`
+            docs: Type of metric being represented, e.g. `gauge`, `histogram`, `counter`
           values:
-            type: map<string, any>
-            docs: |
-              Observations, measurements and context associated with the metric
+            type: optional<map<string, any>>
+            docs: Observations, measurements and context associated with the metric
           samples:
-            type: list<Sample>
-            docs: |
-              List of samples (if any) associated with the metric
+            type: optional<list<Sample>>
+            docs: List of samples (if any) associated with the metric
           tags:
-            type: map<string, string>
-            docs: |
-              Additional dimensions that describe the instance of the metric
+            type: optional<map<string, string>>
+            docs: Additional dimensions that describe the instance of the metric
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available)
+            docs: User id (if available)
           sid:
             type: optional<SessionId>
-            docs: |
-              Session id (if available)
+            docs: Session id (if available)
           tokenId:
             type: optional<TokenId>
-            docs: |
-              API token id (if available)
+            docs: API token id (if available)
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
           unsafeParams:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: >
               Unsafe metadata describing the event
       AuditLogV2:
         docs: |
@@ -443,56 +436,56 @@ types:
           type:
             type: string
             docs: '"audit.2"'
-          time: datetime
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
+          name:
+            type: string
+            docs: >
+              Name of the audit event, e.g. PUT_FILE
+          result:
+            type: AuditResult
+            docs: >
+              Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available). This is the most downstream caller.
+            docs: User id (if available). This is the most downstream caller.
           sid:
             type: optional<SessionId>
-            docs: |
-              Session id (if available)
+            docs: Session id (if available)
           tokenId:
             type: optional<TokenId>
-            docs: |
-              API token id (if available)
+            docs: API token id (if available)
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
+            docs: Zipkin trace id (if available)
           otherUids:
-            type: list<UserId>
-            docs: |
+            type: optional<list<UserId>>
+            docs: >
               All users upstream of the user currently taking an action. The first element in this list is the uid of the most upstream caller. This list does not include the `uid`.
           origin:
             type: optional<string>
-            docs: |
-              Best-effort identifier of the originating machine, e.g. an IP address, a Kubernetes node identifier,
-              or similar
-          name:
-            type: string
-            docs: |
-              Name of the audit event, e.g. PUT_FILE
-          result:
-            type: AuditResult
-            docs: |
-              Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
+            docs: >
+              Best-effort identifier of the originating machine, e.g. an IP address, a Kubernetes node identifier, or similar.
           requestParams:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: >
               The parameters known at method invocation time.
           resultParams:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: >
               Information derived within a method, commonly parts of the return value.
       AuditLogV3:
         fields:
           type:
             type: string
             docs: '"audit.3"'
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
           product:
             type: string
             docs: The name of the product that produced this log.
@@ -514,6 +507,12 @@ types:
           environment:
             type: optional<string>
             docs: The environment that produced this log.
+          name:
+            type: string
+            docs: Name of the audit event, e.g. PUT_FILE
+          result:
+            type: AuditResult
+            docs: Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
           producerType:
             type: AuditProducer
             docs: How this audit log was produced, eg. from a backend Server, frontend Client etc.
@@ -611,26 +610,21 @@ types:
               fields will be dependent on the `categories` field defined above.
 
               This replaces resultParams and will take priority if present.
-          time: datetime
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available). This is the most downstream caller.
+            docs: User id (if available). This is the most downstream caller.
           sid:
             type: optional<SessionId>
-            docs: |
-              Session id (if available)
+            docs: Session id (if available)
           tokenId:
             type: optional<TokenId>
-            docs: |
-              API token id (if available)
+            docs: API token id (if available)
           orgId:
             type: optional<OrganizationId>
             docs: Organization id (if available)
           traceId:
             type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
+            docs: Zipkin trace id (if available)
           origin:
             type: optional<string>
             docs: |
@@ -638,14 +632,6 @@ types:
               IP address, a Kubernetes node identifier, or similar.
 
               This value can be spoofed.
-          name:
-            type: string
-            docs: |
-              Name of the audit event, e.g. PUT_FILE
-          result:
-            type: AuditResult
-            docs: |
-              Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
       AuditProducer:
         values:
           - SERVER
@@ -682,14 +668,15 @@ types:
           type:
             type: string
             docs: '"diagnostic.1"'
-          time: datetime
+          time:
+            type: datetime
+            docs: RFC3339Nano UTC datetime string when the log event was emitted
           diagnostic:
             type: Diagnostic
             docs: The diagnostic being logged.
           unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unredacted parameters
+            type: optional<map<string, any>>
+            docs: Unredacted parameters
 
       Diagnostic:
         union:
@@ -717,7 +704,7 @@ types:
       ThreadDumpV1:
         fields:
           threads:
-            type: list<ThreadInfoV1>
+            type: optional<list<ThreadInfoV1>>
             docs: >
               Information about each of the threads in the thread dump. "Thread" may refer to a
               userland thread such as a goroutine, or an OS-level thread.
@@ -732,11 +719,11 @@ types:
               The name of the thread. Note that thread names may include unsafe information such
               as the path of the HTTP request being processed. It must be safely redacted.
           stackTrace:
-            type: list<StackFrameV1>
+            type: optional<list<StackFrameV1>>
             docs: >
               A list of stack frames for the thread, ordered with the current frame first.
           params:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: Other thread-level information.
       StackFrameV1:
         fields:
@@ -763,7 +750,7 @@ types:
             docs: >
               The line number of the source location of the execution point of this stack frame.
           params:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: Other frame-level information.
 
       AuditResult:
