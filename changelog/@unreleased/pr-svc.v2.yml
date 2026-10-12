@@ -1,0 +1,5 @@
+type: feature
+feature:
+  description: Event and audit logs now include a `svc` field.
+  links:
+  - https://github.com/palantir/witchcraft-api/pull/1187
