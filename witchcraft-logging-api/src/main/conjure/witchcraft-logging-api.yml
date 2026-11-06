@@ -3,19 +3,16 @@ types:
     default-package: com.palantir.witchcraft.api.logging
     objects:
       WrappedLogV1:
-        docs: |
-          Wraps a log entry with entity information.
+        docs: Wraps a log entry with entity information.
         fields:
           type:
             type: string
             docs: '"wrapped.1"'
-          payload:
-            type: WrappedLogV1Payload
+          payload: WrappedLogV1Payload
           entityName:
             type: string
             docs: Artifact part of entity's maven coordinate
-          entityVersion:
-            type: string
+          entityVersion: string
           service:
             type: optional<string>
             docs: Defaults to the wrapped log producer's Skylab service name.
@@ -41,20 +38,15 @@ types:
           diagnosticLogV1: DiagnosticLogV1
 
       ServiceLogV1:
-        docs: |
-          Definition of the service.1 format.
+        docs: Definition of the service.1 format.
         fields:
-          type:
-            type: string
-            docs: '"service.1"'
+          type: string
           level:
             type: LogLevel
-            docs: >
+            docs: >-
               The logger output level. One of {FATAL,ERROR,WARN,INFO,DEBUG,TRACE} based on
               [log level coding guidelines](https://github.com/palantir/gradle-baseline/blob/develop/docs/best-practices/java-coding-guidelines/readme.md#log-levels)
-          time:
-            type: datetime
-            docs: RFC3339Nano UTC datetime string when the log event was emitted
+          time: datetime
           origin:
             type: optional<string>
             docs: Class or file name. May include line number.
@@ -63,7 +55,7 @@ types:
             docs: Thread name
           message:
             type: string
-            docs: >
+            docs: >-
               Log message. Palantir Java services using slf4j should not use slf4j placeholders ({}). Logs obtained
               from 3rd party libraries or services that use slf4j and contain slf4j placeholders will always produce
               `unsafeParams` with numeric indexes corresponding to the zero-indexed order of placeholders. Renderers
@@ -71,251 +63,182 @@ types:
               indexes as the original placeholder text.
           safe:
             type: optional<boolean>
-            docs: >
+            docs: |-
               Describes the safety of this log event based on prior knowledge within the application which produced
               the message. This field should not be set to `true` without _total_ confidence that it is correct.
-              * _empty_:  Considered unsafe unless the logging pipeline has special configuration for this `origin`. Eventually these will all be equivalent to `false`.
+
+              * _empty_: Considered unsafe unless the logging pipeline has special configuration for this `origin`.
+                Eventually these will all be equivalent to `false`.
               * `true`: All safe components can be trusted.
               * `false`: Event is _unsafe_ and cannot be exported.
           params:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: Known-safe parameters (redaction may be used to make params knowably safe, but is not required).
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available).
-          sid:
-            type: optional<SessionId>
-            docs: Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: Zipkin trace id (if available)
+          uid: optional<UserId>
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
+          traceId: optional<TraceId>
+          unsafeParams:
+            type: optional<map<string, any>>
+            docs: Unredacted parameters
+          tags:
+            type: optional<map<string, string>>
+            docs: Additional dimensions that describe the instance of the log event
           stacktrace:
             type: optional<string>
-            docs: >
+            docs: >-
               Language-specific stack trace. Content is knowably safe. Renderers should substitute named placeholders
               ({name}, for name as a key) with keyed value from unsafeParams and leave non-matching keys as the original
               placeholder text.
-          unsafeParams:
-            type: map<string, any>
-            docs: Unredacted parameters
-          tags:
-            type: map<string, string>
-            docs: Additional dimensions that describe the instance of the log event
       RequestLog:
         union:
           v1: RequestLogV1
           v2: RequestLogV2
       RequestLogV2:
-        docs: |
-          Definition of the request.2 format.
+        docs: Definition of the request.2 format.
         fields:
           type: string
           time: datetime
           method:
             type: optional<string>
-            docs: |
-              HTTP method of request
+            docs: HTTP method of request
           protocol:
             type: string
-            docs: |
-              Protocol, e.g. `HTTP/1.1`, `HTTP/2`
+            docs: 'Protocol, e.g. `HTTP/1.1`, `HTTP/2`'
           path:
             type: string
-            docs: |
-              Path of request. If templated, the unrendered path, e.g.: `/catalog/dataset/{datasetId}`, `/{rid}/paths/contents/{path:.*}`.
+            docs: >-
+              Path of request. If templated, the unrendered path, e.g.: `/catalog/dataset/{datasetId}`,
+              `/{rid}/paths/contents/{path:.*}`.
           params:
-            type: map<string, any>
-            docs: |
-              Known-safe parameters
+            type: optional<map<string, any>>
+            docs: Known-safe parameters
           status:
             type: integer
-            docs: |
-              HTTP status code of response
+            docs: HTTP status code of response
           requestSize:
             type: safelong
-            docs: |
-              Size of request (bytes)
+            docs: Size of request (bytes)
           responseSize:
             type: safelong
-            docs: |
-              Size of response (bytes)
+            docs: Size of response (bytes)
           duration:
             type: safelong
-            docs: |
-              Amount of time spent handling request (microseconds)
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available)
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
-          unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unredacted parameters such as path, query and header parameters
-      RequestLogV1:
-        docs: |
-          Definition of the request.1 format.
-        fields:
-          type: string
-          time: datetime
-          method:
-            type: optional<string>
-            docs: |
-              HTTP method of request
-          protocol:
-            type: string
-            docs: |
-              Protocol, e.g. `HTTP/1.1`, `HTTP/2`
-          path:
-            type: string
-            docs: |
-              Path of request. If templated, the unrendered path, e.g.: `/catalog/dataset/{datasetId}`, `/{rid}/paths/contents/{path:.*}`.
-          pathParams:
-            type: map<string, any>
-            docs: |
-              Known-safe path parameters
-          queryParams:
-            type: map<string, any>
-            docs: |
-              Known-safe query parameters
-          headerParams:
-            type: map<string, any>
-            docs: |
-              Known-safe header parameters
-          bodyParams:
-            type: map<string, any>
-            docs: |
-              Known-safe body parameters
-          status:
-            type: integer
-            docs: |
-              HTTP status code of response
-          requestSize:
-            type: string
-            docs: |
-              Size of request (bytes). string to allow large numbers.
-          responseSize:
-            type: string
-            docs: |
-              Size of response (bytes). string to allow large numbers.
-          duration:
-            type: integer
-            docs: |
-              Amount of time spent handling request (microseconds)
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available)
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
-          unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unredacted parameters such as path, query and header parameters
-      TraceLogV1:
-        docs: |
-          Definition of the trace.1 format.
-        fields:
-          type: string
-          time: datetime
+            docs: Amount of time spent handling request (microseconds)
           uid: optional<UserId>
           sid: optional<SessionId>
           tokenId: optional<TokenId>
           orgId: optional<OrganizationId>
-          unsafeParams: map<string, any>
+          traceId: optional<TraceId>
+          unsafeParams:
+            type: optional<map<string, any>>
+            docs: Unredacted parameters such as path, query and header parameters
+      RequestLogV1:
+        docs: Definition of the request.1 format.
+        fields:
+          type: string
+          time: datetime
+          method:
+            type: optional<string>
+            docs: HTTP method of request
+          protocol:
+            type: string
+            docs: 'Protocol, e.g. `HTTP/1.1`, `HTTP/2`'
+          path:
+            type: string
+            docs: >-
+              Path of request. If templated, the unrendered path, e.g.: `/catalog/dataset/{datasetId}`,
+              `/{rid}/paths/contents/{path:.*}`.
+          pathParams:
+            type: map<string, any>
+            docs: Known-safe path parameters
+          queryParams:
+            type: map<string, any>
+            docs: Known-safe query parameters
+          headerParams:
+            type: map<string, any>
+            docs: Known-safe header parameters
+          bodyParams:
+            type: map<string, any>
+            docs: Known-safe body parameters
+          status:
+            type: integer
+            docs: HTTP status code of response
+          requestSize:
+            type: string
+            docs: Size of request (bytes). string to allow large numbers.
+          responseSize:
+            type: string
+            docs: Size of response (bytes). string to allow large numbers.
+          duration:
+            type: integer
+            docs: Amount of time spent handling request (microseconds)
+          uid: optional<UserId>
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
+          traceId: optional<TraceId>
+          unsafeParams:
+            type: map<string, any>
+            docs: Unredacted parameters such as path, query and header parameters
+      TraceLogV1:
+        docs: Definition of the trace.1 format.
+        fields:
+          type: string
+          time: datetime
           span: Span
+          uid: optional<UserId>
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
+          unsafeParams: optional<map<string, any>>
       Span:
         docs: A Zipkin-compatible Span object.
         fields:
           traceId:
             type: string
-            docs: |
-              16-digit hex trace identifier
+            docs: 16-digit hex trace identifier
           id:
             type: string
-            docs: |
-              16-digit hex span identifier
+            docs: 16-digit hex span identifier
           name:
             type: string
-            docs: |
-              Name of the span (typically the operation/RPC/method name for corresponding to this span)
+            docs: Name of the span (typically the operation/RPC/method name for corresponding to this span)
           parentId:
             type: optional<string>
-            docs: |
-              16-digit hex identifer of the parent span
+            docs: 16-digit hex identifer of the parent span
           timestamp:
             type: safelong
-            docs: |
-              Timestamp of the start of this span (epoch microsecond value)
+            docs: Timestamp of the start of this span (epoch microsecond value)
           duration:
             type: safelong
-            docs: |
-              Duration of this span (microseconds)
-          annotations: list<Annotation>
+            docs: Duration of this span (microseconds)
+          annotations: optional<list<Annotation>>
           tags:
-            type: map<string, string>
-            docs: |
-              Additional dimensions that describe the instance of the trace span
+            type: optional<map<string, string>>
+            docs: Additional dimensions that describe the instance of the trace span
       Annotation:
         docs: A Zipkin-compatible Annotation object.
         fields:
           timestamp:
             type: safelong
-            docs: |
-              Time annotation was created (epoch microsecond value)
+            docs: Time annotation was created (epoch microsecond value)
           value:
             type: string
-            docs: |
-              Value encapsulated by this annotation
+            docs: Value encapsulated by this annotation
           endpoint: Endpoint
       Endpoint:
         fields:
           serviceName:
             type: string
-            docs: |
-              Name of the service that generated the annotation
+            docs: Name of the service that generated the annotation
           ipv4:
             type: optional<string>
-            docs: |
-              IPv4 address of the machine that generated this annotation (`xxx.xxx.xxx.xxx`)
+            docs: IPv4 address of the machine that generated this annotation (`xxx.xxx.xxx.xxx`)
           ipv6:
             type: optional<string>
-            docs: |
-              IPv6 address of the machine that generated this annotation (standard hextet form)
+            docs: IPv6 address of the machine that generated this annotation (standard hextet form)
 
       EventLogV1:
         docs: Definition of the event.1 format.
@@ -324,35 +247,20 @@ types:
           time: datetime
           eventName:
             type: string
-            docs: |
-              Dot-delimited name of event, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
+            docs: Dot-delimited name of event, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
           eventType:
             type: string
-            docs: |
-              Type of event being represented, e.g. `gauge`, `histogram`, `counter`
+            docs: Type of event being represented, e.g. `gauge`, `histogram`, `counter`
           values:
-            type: map<string, any>
-            docs: |
-              Observations, measurements and context associated with the event
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available)
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
+            type: optional<map<string, any>>
+            docs: Observations, measurements and context associated with the event
+          uid: optional<UserId>
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
           unsafeParams:
             type: map<string, any>
-            docs: |
-              Unsafe metadata describing the event
+            docs: Unsafe metadata describing the event
       EventLogV2:
         docs: Definition of the event.2 format.
         fields:
@@ -360,37 +268,20 @@ types:
           time: datetime
           eventName:
             type: string
-            docs: |
-              Dot-delimited name of event, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
+            docs: Dot-delimited name of event, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
           values:
-            type: map<string, any>
-            docs: |
-              Observations, measurements and context associated with the event
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available)
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
+            type: optional<map<string, any>>
+            docs: Observations, measurements and context associated with the event
+          uid: optional<UserId>
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
+          traceId: optional<TraceId>
           unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unsafe metadata describing the event
+            type: optional<map<string, any>>
+            docs: Unsafe metadata describing the event
           tags:
-            type: map<string, string>
+            type: optional<map<string, string>>
             docs: Additional dimensions that describe the instance of the log event
       MetricLogV1:
         docs: Definition of the metric.1 format.
@@ -399,100 +290,65 @@ types:
           time: datetime
           metricName:
             type: string
-            docs: |
-              Dot-delimited name of metric, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
+            docs: Dot-delimited name of metric, e.g. `com.foundry.compass.api.Compass.http.ping.failures`
           metricType:
             type: string
-            docs: |
-              Type of metric being represented, e.g. `gauge`, `histogram`, `counter`
+            docs: Type of metric being represented, e.g. `gauge`, `histogram`, `counter`
           values:
-            type: map<string, any>
-            docs: |
-              Observations, measurements and context associated with the metric
+            type: optional<map<string, any>>
+            docs: Observations, measurements and context associated with the metric
           samples:
-            type: list<Sample>
-            docs: |
-              List of samples (if any) associated with the metric
+            type: optional<list<Sample>>
+            docs: List of samples (if any) associated with the metric
           tags:
-            type: map<string, string>
-            docs: |
-              Additional dimensions that describe the instance of the metric
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available)
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
+            type: optional<map<string, string>>
+            docs: Additional dimensions that describe the instance of the metric
+          uid: optional<UserId>
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
           unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unsafe metadata describing the event
+            type: optional<map<string, any>>
+            docs: Unsafe metadata describing the event
       AuditLogV2:
-        docs: |
-          Definition of the audit.2 format.
+        docs: Definition of the audit.2 format.
         fields:
-          type:
-            type: string
-            docs: '"audit.2"'
+          type: string
           time: datetime
-          uid:
-            type: optional<UserId>
-            docs: |
-              User id (if available). This is the most downstream caller.
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
-          otherUids:
-            type: list<UserId>
-            docs: |
-              All users upstream of the user currently taking an action. The first element in this list is the uid of the most upstream caller. This list does not include the `uid`.
-          origin:
-            type: optional<string>
-            docs: |
-              Best-effort identifier of the originating machine, e.g. an IP address, a Kubernetes node identifier,
-              or similar
           name:
             type: string
-            docs: |
-              Name of the audit event, e.g. PUT_FILE
+            docs: Name of the audit event, e.g. PUT_FILE
           result:
             type: AuditResult
-            docs: |
-              Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
+            docs: Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
+          uid:
+            type: optional<UserId>
+            docs: User id (if available). This is the most downstream caller.
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
+          traceId: optional<TraceId>
+          otherUids:
+            type: optional<list<UserId>>
+            docs: >-
+              All users upstream of the user currently taking an action. The first element in this list is the uid of
+              the most upstream caller. This list does not include the `uid`.
+          origin:
+            type: optional<string>
+            docs: >-
+              Best-effort identifier of the originating machine, e.g. an IP address, a Kubernetes node identifier, or
+              similar
           requestParams:
-            type: map<string, any>
-            docs: |
-              The parameters known at method invocation time.
+            type: optional<map<string, any>>
+            docs: The parameters known at method invocation time.
           resultParams:
-            type: map<string, any>
-            docs: |
-              Information derived within a method, commonly parts of the return value.
+            type: optional<map<string, any>>
+            docs: Information derived within a method, commonly parts of the return value.
       AuditLogV3:
+        docs: Definition of the audit.3 format.
         fields:
-          type:
-            type: string
-            docs: '"audit.3"'
+          type: string
+          time: datetime
           product:
             type: string
             docs: The name of the product that produced this log.
@@ -514,19 +370,25 @@ types:
           environment:
             type: optional<string>
             docs: The environment that produced this log.
+          name:
+            type: string
+            docs: Name of the audit event, e.g. PUT_FILE
+          result:
+            type: AuditResult
+            docs: Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
           producerType:
             type: AuditProducer
             docs: How this audit log was produced, eg. from a backend Server, frontend Client etc.
           organizations:
-            type: list<Organization>
-            docs: |
+            type: optional<list<Organization>>
+            docs: >-
               A list of organizations that have been attributed to this log.
               Attribution is typically based on the user that originated this log, and the resources that
               they targeted.
               Not exposed to downstream consumers.
           eventId:
             type: uuid
-            docs: |
+            docs: >-
               Unique identifier for this audit log event. If there are multiple log entries associated with this
               particular audit event, they will share the same eventId but will have different logEntryId and different
               sequenceId.
@@ -540,50 +402,50 @@ types:
             type: optional<string>
             docs: The user agent of the user that originated this log.
           categories:
-            type: list<string>
-            docs: |
+            type: optional<list<string>>
+            docs: >-
               All audit categories produced by this audit event.
               Each audit categories produces a set of keys that will be distributed between the request and
               response params.
           entities:
-            type: list<any>
-            docs: |
+            type: optional<list<any>>
+            docs: >-
               All contextualized entities present in the request and response params of this log.
               Note: Some resources cannot be contextualized, and will not be included in this list as a result.
           users:
-            type: list<ContextualizedUser>
-            docs: |
+            type: optional<list<ContextualizedUser>>
+            docs: >-
               All contextualized users present in the request and response params of this log, including the top level
               UUID of this log.
           origins:
-            type: list<string>
-            docs: |
+            type: optional<list<string>>
+            docs: |-
               All addresses attached to the request. Contains information
               from unreliable sources such as the X-Forwarded-For header.
 
               This value can be spoofed.
           sourceOrigin:
             type: optional<string>
-            docs: |
+            docs: |-
               Origin of the network request. If a request goes through a proxy,
               this will contain the proxy''s address.
 
               This value is verified through the TCP stack.
           requestParams:
-            deprecated: |
+            deprecated: |-
               Use requestFields instead.
 
               Should be translated to requestFields during emitting if requestFields is missing, by dropping the level
               from the SensitivityTaggedValue and directly using the payload as the value for the map.
-            type: map<string, SensitivityTaggedValue>
-            docs: |
+            type: optional<map<string, SensitivityTaggedValue>>
+            docs: |-
               The parameters known at method invocation time.
 
               Note that all keys must be known to the audit library. Typically, entries in the request and response
               params will be dependent on the `categories` field defined above.
           requestFields:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: |-
               The fields known at method invocation time.
 
               Note that all keys must be known to the audit library. Typically, entries in the request and result
@@ -591,61 +453,40 @@ types:
 
               This replaces requestParams and will take priority if present.
           resultParams:
-            deprecated: |
+            deprecated: |-
               Use resultFields instead.
 
               Should be translated to resultFields during emitting if resultFields is missing, by dropping the level
               from the SensitivityTaggedValue and directly using the payload as the value for the map.
-            type: map<string, SensitivityTaggedValue>
-            docs: |
+            type: optional<map<string, SensitivityTaggedValue>>
+            docs: |-
               Information derived within a method, commonly parts of the return value.
 
               Note that all keys must be known to the audit library. Typically, entries in the request and response
               params will be dependent on the `categories` field defined above.
           resultFields:
-            type: map<string, any>
-            docs: |
+            type: optional<map<string, any>>
+            docs: |-
               Information derived within a method, commonly parts of the return value.
 
               Note that all keys must be known to the audit library. Typically, entries in the request and result
               fields will be dependent on the `categories` field defined above.
 
               This replaces resultParams and will take priority if present.
-          time: datetime
           uid:
             type: optional<UserId>
-            docs: |
-              User id (if available). This is the most downstream caller.
-          sid:
-            type: optional<SessionId>
-            docs: |
-              Session id (if available)
-          tokenId:
-            type: optional<TokenId>
-            docs: |
-              API token id (if available)
-          orgId:
-            type: optional<OrganizationId>
-            docs: Organization id (if available)
-          traceId:
-            type: optional<TraceId>
-            docs: |
-              Zipkin trace id (if available)
+            docs: User id (if available). This is the most downstream caller.
+          sid: optional<SessionId>
+          tokenId: optional<TokenId>
+          orgId: optional<OrganizationId>
+          traceId: optional<TraceId>
           origin:
             type: optional<string>
-            docs: |
+            docs: |-
               Best-effort identifier of the originating machine, e.g. an
               IP address, a Kubernetes node identifier, or similar.
 
               This value can be spoofed.
-          name:
-            type: string
-            docs: |
-              Name of the audit event, e.g. PUT_FILE
-          result:
-            type: AuditResult
-            docs: |
-              Indicates whether the request was successful or the type of failure, e.g. ERROR or UNAUTHORIZED
       AuditProducer:
         values:
           - SERVER
@@ -653,43 +494,37 @@ types:
       Organization:
         fields:
           id:
+            type: string
             docs: Organization RID. Not exposed to downstream consumers.
-            type: string
           reason:
-            docs: Explanation of why this organization was attributed to this log.
             type: string
+            docs: Explanation of why this organization was attributed to this log.
       ContextualizedUser:
         fields:
           uid: UserId
           userName: optional<string>
           firstName: optional<string>
           lastName: optional<string>
-          groups: list<string>
+          groups: optional<list<string>>
           realm: optional<string>
       SensitivityTaggedValue:
         fields:
           level:
-            docs: |
-              Sensitivity level of this value; must be a known level in sls-spec.
-            type: list<string>
-          payload:
-            type: any
+            type: optional<list<string>>
+            docs: Sensitivity level of this value; must be a known level in sls-spec.
+          payload: any
 
       DiagnosticLogV1:
-        docs: |
-          Definition of the diagnostic.1 format.
+        docs: Definition of the diagnostic.1 format.
         fields:
-          type:
-            type: string
-            docs: '"diagnostic.1"'
+          type: string
           time: datetime
           diagnostic:
             type: Diagnostic
             docs: The diagnostic being logged.
           unsafeParams:
-            type: map<string, any>
-            docs: |
-              Unredacted parameters
+            type: optional<map<string, any>>
+            docs: Unredacted parameters
 
       Diagnostic:
         union:
@@ -717,8 +552,8 @@ types:
       ThreadDumpV1:
         fields:
           threads:
-            type: list<ThreadInfoV1>
-            docs: >
+            type: optional<list<ThreadInfoV1>>
+            docs: >-
               Information about each of the threads in the thread dump. "Thread" may refer to a
               userland thread such as a goroutine, or an OS-level thread.
       ThreadInfoV1:
@@ -728,42 +563,42 @@ types:
             docs: The ID of the thread.
           name:
             type: optional<string>
-            docs: >
+            docs: >-
               The name of the thread. Note that thread names may include unsafe information such
               as the path of the HTTP request being processed. It must be safely redacted.
           stackTrace:
-            type: list<StackFrameV1>
-            docs: >
+            type: optional<list<StackFrameV1>>
+            docs: >-
               A list of stack frames for the thread, ordered with the current frame first.
           params:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: Other thread-level information.
       StackFrameV1:
         fields:
           address:
             type: optional<string>
-            docs: >
+            docs: >-
               The address of the execution point of this stack frame. This is a string because a
               safelong can't represent the full 64 bit address space.
           procedure:
             type: optional<string>
-            docs: >
+            docs: >-
               The identifier of the procedure containing the execution point of this stack frame.
               This is a fully qualified method name in Java and a demangled symbol name in native
               code, for example. Note that procedure names may include unsafe information if a
               service is, for exmaple, running user-defined code. It must be safely redacted.
           file:
             type: optional<string>
-            docs: >
+            docs: >-
               The name of the file containing the source location of the execution point of this
               stack frame. Note that file names may include unsafe information if a service is,
               for example, running user-defined code. It must be safely redacted.
           line:
             type: optional<integer>
-            docs: >
+            docs: >-
               The line number of the source location of the execution point of this stack frame.
           params:
-            type: map<string, any>
+            type: optional<map<string, any>>
             docs: Other frame-level information.
 
       AuditResult:
@@ -772,7 +607,7 @@ types:
           - ERROR
           - UNAUTHORIZED
           - value: PARTIAL
-            docs: >
+            docs: >-
               A result that has not yet been finalized. It may be missing fields from
               resultParams, and it is expected that a non-partial log should occur in the
               future with the same event ID.
@@ -799,10 +634,10 @@ types:
         alias: string
       TraceId:
         alias: string
+        docs: Zipkin trace id
 
       WitchcraftEnvelopeV1:
-        docs: |
-          Wraps a log entry with metadata on where it is coming from and the source service that generated it.
+        docs: Wraps a log entry with metadata on where it is coming from and the source service that generated it.
         fields:
           type:
             type: string
@@ -841,8 +676,10 @@ types:
             type: string
             docs: Artifact semantic version
           payload:
-            docs: One of the Witchcraft log types; see [witchcraft-api](https://github.com/palantir/witchcraft-api) for details.
             type: any
+            docs: >-
+              One of the Witchcraft log types; see [witchcraft-api](https://github.com/palantir/witchcraft-api) for
+              details.
           apolloEntityId:
             type: string
             docs: Apollo entity id
