@@ -1,0 +1,39 @@
+types:
+  conjure-imports:
+    logging: witchcraft-logging-api.yml
+
+services:
+  MetricsService:
+    name: Witchcraft Metrics Service
+    package: com.palantir.witchcraft.api.metrics
+    base-path: /
+    default-auth: none
+    docs: |
+      Exposes registered process metrics as metric.1 records over HTTP/JSON.
+      Mount on the management router under the configured service context path.
+      The auth setting adds no Conjure header or cookie requirement. Deployments
+      enforce their configured TLS and certificate identity policy separately.
+    endpoints:
+      getMetrics:
+        http: GET /metrics
+        returns: list<logging.MetricLogV1>
+        docs: |
+          Returns an application/json array of registered metrics using the
+          configured metric and value filters. An empty result is []. Successful
+          responses set Cache-Control: no-store.
+
+          Each record has type metric.1 and a time representing the request's
+          observation time. Reads preserve existing instrument meaning, units
+          and refresh cadence; the timestamp does not guarantee a fresh sample
+          for periodically refreshed gauges. Reads do not reset instruments.
+          The response is not an atomic snapshot across instruments.
+
+          Finite numeric values remain JSON numbers. Non-finite values in the
+          values map use strings: NaN, +Inf or Infinity, and -Inf or -Infinity.
+          A non-finite value must not fail the entire response. Other encoding
+          failures return HTTP 500 before any metric records are written.
+
+          This is a registry snapshot, not a history of direct metric-log calls.
+          It does not reconstruct per-event context or exemplars. Periodic
+          metric logs continue; collectors select an ingestion path to avoid
+          collecting the same measurements twice.
